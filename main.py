@@ -29,6 +29,19 @@ def make_directory():
     except Exception as e:
         print(f"An error occurred while creating directory: {e}")
 
+def create_vertical_strip():
+    """Combines all captured photos into a single vertical strip."""
+    output_path = PHOTO_DIR / "vertical_strip.png"
+    input_photos = [PHOTO_DIR / f"photo{i:02}.png" for i in range(1, NUM_PHOTOS + 1)]
+    try:
+        subprocess.run(
+            ['convert', *map(str, input_photos), '-append', str(output_path)],
+        )
+        print(f"Vertical strip created at {output_path}")
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to create vertical strip: {e}")
+
 if __name__ == '__main__':
     make_directory()
     take_photos()
+    create_vertical_strip()
